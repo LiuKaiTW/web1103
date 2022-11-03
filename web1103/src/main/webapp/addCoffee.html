@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Add Coffee</title>
+<script src="jquery3.6.0.js"></script>
+</head>
+<body>
+	<form>
+		咖啡名稱:<input type="text" name="coffee" value="Extra Espresso" /> <br />
+		售價:<input type="text" name="sale" value="200" /><br /> 總量:
+		<input type="text" name="total" value="10" /><br /> 供應商:
+		<input type="text" name="supplier" value="150" /><br /> 價格:
+		<input type="text" name="price" value="300" /><br /> 
+		<input type="submit" value="Save" />
+		<input type="button" value="coffees" />
+	</form>
+	<div id="mydata"></div>
+    <script>
+    //製作查詢方法，且會執行display
+        function query(e){
+        	e.preventDefault();
+        	$.get("coffee",display);
+        }
+    //接收所有回傳回來的資料，並在mydata的div中顯示
+        function display(data){
+             $("#mydata").html(data);
+        }
+   	//新增品項，送出的資料，並也傳到servlet執行post方法
+   	//送出form的data，並且執行display
+        function send(evt){
+            evt.preventDefault();
+            var frmdata=$("form").serialize();
+            //alert(frmdata);
+            $.post("InsertCoffeeServlet",frmdata,display);
+        }
+        //按鈕中使用jquery的方法
+        function start(){
+        	$('input[type=submit]').click(send);
+        	$('input[type=button]').click(query);
+        }
+        $(document).ready(start);
+    </script>
+</body>
+</html>
